@@ -15,6 +15,9 @@ export default function ProductDetails() {
   useEffect(() => {
     productService.findById(Number(params.productId)).then((response) => {
       setProduct(response.data);
+    })
+    .catch(error => {
+        console.log(error.response.data)
     });
   }, []);
 
