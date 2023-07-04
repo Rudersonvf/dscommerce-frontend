@@ -27,7 +27,7 @@ export default function ProductDetails() {
   }, []);
 
   function handleBuyClick() {
-    if (product) {
+    if (product) { //adiciona se o carrinho nao for undefined
       cartService.addProduct(product);
       navigate("/cart")
     }
