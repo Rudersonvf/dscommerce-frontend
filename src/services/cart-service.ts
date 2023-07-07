@@ -19,3 +19,7 @@ export function addProduct(product: ProductDTO) {
         cartRepository.save(cart); //cartRepository salva o item no localStorage
     }
 }
+
+export function clearCart(){
+    cartRepository.clear();
+}
