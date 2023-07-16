@@ -7,18 +7,36 @@ import * as productService from "../../../services/product-service";
 import { useEffect, useState } from "react";
 import { ProductDTO } from "../../../models/product";
 
+type QueryParams = {
+  page: number;
+  name: string;
+};
+
 export default function Catalog() {
+  const [isLastPage, setIsLastPage] = useState(false);
   const [products, setProducts] = useState<ProductDTO[]>([]);
-  const [prodName, setProdName] = useState("");
+  const [queryParams, setQueryParams] = useState<QueryParams>({
+    page: 0,
+    name: "",
+  });
 
   useEffect(() => {
-    productService.findPageRequest(0, prodName).then((response) => {
-      setProducts(response.data.content);
-    });
-  }, [prodName]); //<- Lista de dependẽncias do useEffect. Sempre que o valor mudar o useEffect executa a função novamente
+    productService
+      .findPageRequest(queryParams.page, queryParams.name)
+      .then((response) => {
+        const nextPage = response.data.content; //adiciona os products na variavel;
+        setProducts(products.concat(nextPage)); //concatena no arry de products os valorem que chegaram no array nextPage
+        setIsLastPage(response.data.last)
+      });
+  }, [queryParams]); //<- Lista de dependẽncias do useEffect. Sempre que o valor mudar o useEffect executa a função novamente
 
   function handleSearch(searchText: string) {
-    setProdName(searchText);
+    setProducts([]);
+    setQueryParams({ ...queryParams, page: 0, name: searchText });
+  }
+
+  function handleNextPageClick() {
+    setQueryParams({ ...queryParams, page: queryParams.page + 1 });
   }
 
   /* O componente catalogo vai observar o evento onSearch do componente SearchBar
@@ -39,7 +57,11 @@ export default function Catalog() {
             <CatalogCard key={product.id} product={product} />
           ))}
         </div>
-        <ButtonNextPage />
+        {!isLastPage && (
+          <div onClick={handleNextPageClick}>
+            <ButtonNextPage />
+          </div>
+        )}
       </section>
     </main>
   );
