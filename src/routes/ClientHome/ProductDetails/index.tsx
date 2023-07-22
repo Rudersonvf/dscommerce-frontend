@@ -3,15 +3,18 @@ import ButtonInverse from "../../../components/ButtonInverse";
 import ButtonPrimary from "../../../components/ButtonPrimary";
 import ProductDetailsCard from "../../../components/ProductDetailsCard";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProductDTO } from "../../../models/product";
 import * as productService from "../../../services/product-service";
 import * as cartService from "../../../services/cart-service";
+import { ContextCartCount } from "../../../utils/context-cart";
 
 export default function ProductDetails() {
   const params = useParams();
 
   const navigate = useNavigate();
+
+  const { setContextCartCount } = useContext(ContextCartCount);
 
   const [product, setProduct] = useState<ProductDTO>();
 
@@ -22,14 +25,16 @@ export default function ProductDetails() {
         setProduct(response.data);
       })
       .catch(() => {
-        navigate("/")
+        navigate("/");
       });
   }, []);
 
   function handleBuyClick() {
-    if (product) { //adiciona se o carrinho nao for undefined
+    if (product) {
+      //adiciona se o carrinho nao for undefined
       cartService.addProduct(product);
-      navigate("/cart")
+      setContextCartCount(cartService.getCart().items.length);
+      navigate("/cart");
     }
   }
 
