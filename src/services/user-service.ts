@@ -3,7 +3,7 @@ import { AxiosRequestConfig } from "axios";
 
 export function findLoggedUser() {
   const config: AxiosRequestConfig = {
-    url: "/user/me",
+    url: "/users/me",
     withCredentials: true,
   };
 
