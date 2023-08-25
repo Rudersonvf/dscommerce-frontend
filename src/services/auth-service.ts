@@ -1,5 +1,9 @@
 import QueryString from "qs";
-import { AccessTokenPayLoadDTO, CredentialsDTO } from "../models/auth";
+import {
+  AccessTokenPayLoadDTO,
+  CredentialsDTO,
+  RoleEnum,
+} from "../models/auth";
 import { CLIENT_ID, CLIENT_SECRET } from "../utils/system";
 import { AxiosRequestConfig } from "axios";
 import { requestBackend } from "../utils/requests";
@@ -53,4 +57,22 @@ export function getAccessTokenPayLoad(): AccessTokenPayLoadDTO | undefined {
 export function isAuthenticated(): boolean {
   let tokenPayLoad = getAccessTokenPayLoad();
   return tokenPayLoad && tokenPayLoad.exp * 1000 > Date.now() ? true : false;
+}
+
+export function hasAnyRoles(roles: RoleEnum[]): boolean {
+  if (roles.length === 0) {
+    return true;
+  }
+
+  const tokenPayLoad = getAccessTokenPayLoad();
+
+  if (tokenPayLoad !== undefined) {
+    for (var i = 0; i < roles.length; i++) {
+      if (tokenPayLoad.authorities.includes(roles[i])) {
+        return true;
+      }
+    }
+    //return roles.some((role) => tokenData.authorities.includes(role)); <- Função de alta ordem, equivalente a função acima
+  }
+  return false;
 }
