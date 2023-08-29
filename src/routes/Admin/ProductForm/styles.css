@@ -1,16 +1,22 @@
-#product-listing-section {
+#product-form-section {
   padding: 20px 0;
 }
 
-.dsc-product-listing-image {
-  width: 69px;
-  height: 69px;
-  display: block;
+.dsc-product-form-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
-.dsc-product-listing-btn {
-  height: 20px;
-  width: auto;
-  cursor: pointer;
-  margin: 5px;
+.dsc-product-form-buttons {
+  width: 100%;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+}
+
+@media (min-width: 576px) {
+  #product-form-section {
+    padding: 40px 0;
+  }
 }
