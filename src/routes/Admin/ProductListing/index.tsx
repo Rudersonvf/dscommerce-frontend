@@ -5,6 +5,7 @@ import SearchBar from "../../../components/SearchBar";
 import * as productService from "../../../services/product-service";
 import deleteImg from "../../../assets/deletar.svg";
 import editImg from "../../../assets/editar.svg";
+import ButtonNextPage from "../../../components/ButtonNextPage";
 
 type QueryParams = {
   page: number;
@@ -62,7 +63,7 @@ export default function ProductListing() {
           </thead>
           <tbody>
             {products.map((product) => (
-              <tr>
+              <tr key={product.id}>
                 <td className="dsc-tb576">{product.id}</td>
                 <td>
                   <img
@@ -91,11 +92,7 @@ export default function ProductListing() {
             ))}
           </tbody>
         </table>
-        {!isLastPage && (
-          <div onClick={handleNextPageClick} className="dsc-btn-next-page">
-            Carregar mais
-          </div>
-        )}
+        {!isLastPage && <ButtonNextPage onNextPage={handleNextPageClick} />}
       </section>
     </main>
   );

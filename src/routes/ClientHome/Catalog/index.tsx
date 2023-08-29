@@ -26,7 +26,7 @@ export default function Catalog() {
       .then((response) => {
         const nextPage = response.data.content; //adiciona os products na variavel;
         setProducts(products.concat(nextPage)); //concatena no arry de products os valorem que chegaram no array nextPage
-        setIsLastPage(response.data.last)
+        setIsLastPage(response.data.last);
       });
   }, [queryParams]); //<- Lista de dependẽncias do useEffect. Sempre que o valor mudar o useEffect executa a função novamente
 
@@ -57,11 +57,7 @@ export default function Catalog() {
             <CatalogCard key={product.id} product={product} />
           ))}
         </div>
-        {!isLastPage && (
-          <div onClick={handleNextPageClick}>
-            <ButtonNextPage />
-          </div>
-        )}
+        {!isLastPage && <ButtonNextPage onNextPage={handleNextPageClick} />}
       </section>
     </main>
   );
