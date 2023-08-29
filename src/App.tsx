@@ -16,6 +16,8 @@ import * as authService from "./services/auth-service";
 import * as cartService from "./services/cart-service";
 import { ContextToken } from "./utils/context-token";
 import Confirmation from "./routes/ClientHome/Confirmation";
+import ProductListing from "./routes/Admin/ProductListing";
+import ProductForm from "./routes/Admin/ProductForm";
 
 function App() {
   const [contextCartCount, setContextCartCount] = useState<number>(0);
@@ -49,17 +51,27 @@ function App() {
               />
               <Route path="cart" element={<Cart />} />
               <Route path="login" element={<Login />} />
-              <Route path="confirmation/:orderId" element={<Confirmation />} />
+              <Route
+                path="confirmation/:orderId"
+                element={
+                  <PrivateRoute roles={["ROLE_CLIENT"]}>
+                    <Confirmation />
+                  </PrivateRoute>
+                }
+              />
             </Route>
             <Route
               path="/admin/"
               element={
-                <PrivateRoute roles={["ROLE_ADMIN"]}>
+                <PrivateRoute>
                   <Admin />
                 </PrivateRoute>
               }
             >
-              <Route index element={<AdminHome />} />
+              <Route index element={<Navigate to={"/admin/home"} />} />
+              <Route path="home" element={<AdminHome />} />
+              <Route path="products" element={<ProductListing />} />
+              <Route path="products/:productId" element={<ProductForm />} />
             </Route>
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
