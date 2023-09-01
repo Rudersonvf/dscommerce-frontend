@@ -3,8 +3,9 @@ import "./styles.css";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ContextToken } from "../../../utils/context-token";
-import * as authService from "../../../services/auth-service";
 import FormInput from "../../../components/FormInput";
+import * as authService from "../../../services/auth-service";
+import * as forms from "../../../utils/forms";
 
 export default function Login() {
   const { setContextTokenPayload } = useContext(ContextToken);
@@ -33,9 +34,7 @@ export default function Login() {
   });
 
   function handleInputChange(event: any) {
-    const name = event.target.name;
-    const value = event.target.value;
-    setFormData({ ...formData, [name]: { ...formData[name], value: value } });
+    setFormData(forms.update(formData, event.target.name, event.target.value));
   }
 
   function handleSubmit(event: any) {
