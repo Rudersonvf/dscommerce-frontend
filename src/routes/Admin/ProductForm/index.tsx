@@ -17,6 +17,9 @@ export default function ProductForm() {
       name: "name",
       type: "text",
       placeholder: "Nome",
+      validation: function (value: string) {
+        return value.length > 3;
+      },
     },
     price: {
       value: "",
@@ -24,6 +27,10 @@ export default function ProductForm() {
       name: "price",
       type: "number",
       placeholder: "Preço",
+      validation: function (value: any) {
+        return Number(value) > 0;
+      },
+      message: "Valor deve ser positivo!",
     },
     imgUrl: {
       value: "",
