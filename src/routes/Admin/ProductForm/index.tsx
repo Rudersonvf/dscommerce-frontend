@@ -18,7 +18,7 @@ export default function ProductForm() {
       type: "text",
       placeholder: "Nome",
       validation: function (value: string) {
-        return value.length > 3;
+        return value.length > 2;
       },
       message: "Deve conter entre 3 e 80 caracteres",
     },
@@ -60,6 +60,11 @@ export default function ProductForm() {
     setFormData(dataValidated);
   }
 
+  function handleTurnDirty(name: string) {
+    const newformData = forms.toDirty(formData, name);
+    setFormData(newformData);
+  }
+
   return (
     <main>
       <section id="product-form-section" className="dsc-container">
@@ -71,6 +76,7 @@ export default function ProductForm() {
                 <FormInput
                   {...formData.name}
                   className="dsc-form-control"
+                  onTurnDirty={handleTurnDirty}
                   onChange={handleInputChange}
                 />
                 <div className="dsc-form-error">{formData.name.message}</div>
@@ -79,6 +85,7 @@ export default function ProductForm() {
                 <FormInput
                   {...formData.price}
                   className="dsc-form-control"
+                  onTurnDirty={handleTurnDirty}
                   onChange={handleInputChange}
                 />
                 <div className="dsc-form-error">{formData.price.message}</div>
@@ -87,6 +94,7 @@ export default function ProductForm() {
                 <FormInput
                   {...formData.imgUrl}
                   className="dsc-form-control"
+                  onTurnDirty={handleTurnDirty}
                   onChange={handleInputChange}
                 />
               </div>
