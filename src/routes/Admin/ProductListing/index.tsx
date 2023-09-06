@@ -87,7 +87,7 @@ export default function ProductListing() {
     navigate("/admin/products/create");
   }
 
-  function handleEditProductClick(id: number) {
+  function handleUpdateClick(id: number) {
     navigate(`/admin/products/${id}`);
   }
 
@@ -133,7 +133,7 @@ export default function ProductListing() {
                     className="dsc-product-listing-btn"
                     src={editImg}
                     alt="Editar"
-                    onClick={() => handleEditProductClick(product.id)}
+                    onClick={() => handleUpdateClick(product.id)}
                   />
                 </td>
                 <td>
